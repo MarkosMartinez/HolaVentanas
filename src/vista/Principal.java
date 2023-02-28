@@ -81,6 +81,7 @@ public class Principal extends JFrame {
 		contentPane.add(lblLocalidad);
 		
 		textDNI = new JTextField();
+		textDNI.setToolTipText("");
 		textDNI.setBounds(118, 27, 86, 20);
 		contentPane.add(textDNI);
 		textDNI.setColumns(10);
@@ -123,6 +124,9 @@ public class Principal extends JFrame {
 				cliente.setLocalidad(localidad);
 				
 				try {
+					if (textDNI.getText().length() == 0) {
+						JOptionPane.showMessageDialog(null, "Error datos no validos!");
+					}else {
 					gestorbbdd.altaCliente(cliente);
 					JOptionPane.showMessageDialog(null, "Cliente insertado!");
 					textDNI.setText(null);
@@ -130,6 +134,7 @@ public class Principal extends JFrame {
 					textApellido.setText(null);
 					textDireccion.setText(null);
 					textLocalidad.setText(null);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -145,9 +150,7 @@ public class Principal extends JFrame {
 			    modificarCliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			    modificarCliente.setModal(true);
 			    modificarCliente.setVisible(true);
-			    
-			    contentPane.setEnabled(true);
-			    contentPane.requestFocus();
+
 			}
 		});
 		btnModificar.setBounds(85, 226, 155, 23);

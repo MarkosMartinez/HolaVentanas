@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JProgressBar;
 
 public class UpdateCliente extends JDialog {
 
@@ -34,6 +35,8 @@ public class UpdateCliente extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param b 
+	 * @param contentPane 
 	 */
 	public UpdateCliente() {
 		setTitle("Actualizar Cliente");
@@ -128,10 +131,40 @@ public class UpdateCliente extends JDialog {
 					textDni.setEditable(true);
 					btnDniEquivocado.setVisible(false);
 					
+					textNombre.setText(null);
+					textApellido.setText(null);
+					textDireccion.setText(null);
+					textLocalidad.setText(null);
+					
 				}
 			});
 			btnDniEquivocado.setBounds(239, 57, 119, 23);
 			contentPanel.add(btnDniEquivocado);
+			
+			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(textDni.getText().length() == 0) {
+						JOptionPane.showMessageDialog(null, "Error! Introduce el DNI del cliente al que quieres eliminar!");
+					}else {
+						GestorBBDD gestorbbdd = new GestorBBDD();
+						Cliente clienteAEliminar = new Cliente();
+						clienteAEliminar.setDni(textDni.getText());
+						try {
+							gestorbbdd.bajaCliente(clienteAEliminar);
+							JOptionPane.showMessageDialog(null, "Cliente eliminado!");
+							textDni.setText(null);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					
+				}
+			});
+			btnEliminar.setBounds(335, 22, 89, 23);
+			contentPanel.add(btnEliminar);
 			btnDniEquivocado.setVisible(false);
 
 			btnCargar.addActionListener(new ActionListener() {
@@ -173,5 +206,9 @@ public class UpdateCliente extends JDialog {
 				cerrarButton.setActionCommand("Cancel");
 				buttonPane.add(cerrarButton);
 			
+	}
+
+	public UpdateCliente(JPanel contentPane, boolean b) {
+		// TODO Auto-generated constructor stub
 	}
 }
