@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.GestorBBDD;
 
-public class ConPestañas extends JFrame {
+public class UsandoPestañas extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -37,7 +37,7 @@ public class ConPestañas extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ConPestañas frame = new ConPestañas();
+					UsandoPestañas frame = new UsandoPestañas();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class ConPestañas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConPestañas() {
+	public UsandoPestañas() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
