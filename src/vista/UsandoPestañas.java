@@ -153,14 +153,7 @@ public class UsandoPestañas extends JFrame {
 		btnGuardar.setBounds(79, 176, 89, 23);
 		instCliente.add(btnGuardar);
 		
-		JButton btnModificar = new JButton("Modificar Cliente");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				abrirMdificar();
-			}
-
-
-		});			
+		JButton btnModificar = new JButton("Modificar Cliente");		
 		
 		
 		btnModificar.setBounds(46, 210, 155, 23);
@@ -183,18 +176,32 @@ public class UsandoPestañas extends JFrame {
 		  Cliente cliente = it.next();
 		  model.addRow(new Object[]{cliente.getDni(), cliente.getNombre(), cliente.getApellidos(), cliente.getDireccion(), cliente.getLocalidad()});
 		}
+		verClientes.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		table.setModel(model);
 
 		
 		verClientes.add(table);
 		
-	}
-
-	protected void abrirMdificar() {
-
-			UpdateCliente modificarCliente = new UpdateCliente(this);
-		    modificarCliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		    modificarCliente.setModal(true);
-		    modificarCliente.setVisible(true);
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            try {
+	                ArrayList<Cliente> nuevosClientes = gestorbbdd.getClientes();
+	                model.setRowCount(0);
+	                Iterator<Cliente> iter = nuevosClientes.iterator();
+	                while (iter.hasNext()) {
+	                    Cliente cliente = iter.next();
+	                    Object[] fila = {cliente.getDni(), cliente.getNombre(),
+	                                     cliente.getApellidos(), cliente.getDireccion(),
+	                                     cliente.getLocalidad()};
+	                    model.addRow(fila);
+	                }
+	            } catch (SQLException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+	    });
+		verClientes.add(btnActualizar);
+		
 	}
 }
