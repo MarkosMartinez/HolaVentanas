@@ -146,14 +146,18 @@ public class Principal extends JFrame {
 		JButton btnModificar = new JButton("Modificar Cliente");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			    UpdateCliente modificarCliente = new UpdateCliente();
-			    modificarCliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			    modificarCliente.setModal(true);
-			    modificarCliente.setVisible(true);
-
+				abrirMdificar();
 			}
 		});
 		btnModificar.setBounds(85, 226, 155, 23);
 		contentPane.add(btnModificar);
+	}
+
+	protected void abrirMdificar() {
+		UpdateCliente modificarCliente = new UpdateCliente(this);
+	    modificarCliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    modificarCliente.setModal(true);
+	    modificarCliente.setVisible(true);
+		
 	}
 }

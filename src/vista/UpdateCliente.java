@@ -35,10 +35,12 @@ public class UpdateCliente extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param principal 
 	 * @param b 
 	 * @param contentPane 
+	 * @wbp.parser.constructor
 	 */
-	public UpdateCliente() {
+	public UpdateCliente(Principal padre) {
 		setTitle("Actualizar Cliente");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -112,7 +114,6 @@ public class UpdateCliente extends JDialog {
 						gestorbbdd.modificarCliente(nuevoCliente);
 						JOptionPane.showMessageDialog(null, "Cliente modificado!");
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -155,8 +156,11 @@ public class UpdateCliente extends JDialog {
 							gestorbbdd.bajaCliente(clienteAEliminar);
 							JOptionPane.showMessageDialog(null, "Cliente eliminado!");
 							textDni.setText(null);
+							textNombre.setText(null);
+							textApellido.setText(null);
+							textLocalidad.setText(null);
+							textDireccion.setText(null);
 						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
@@ -187,7 +191,6 @@ public class UpdateCliente extends JDialog {
 						textLocalidad.setText(clienteCargado.getLocalidad());
 					}
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -206,9 +209,5 @@ public class UpdateCliente extends JDialog {
 				cerrarButton.setActionCommand("Cancel");
 				buttonPane.add(cerrarButton);
 			
-	}
-
-	public UpdateCliente(JPanel contentPane, boolean b) {
-		// TODO Auto-generated constructor stub
 	}
 }
