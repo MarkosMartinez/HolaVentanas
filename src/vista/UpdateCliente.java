@@ -210,4 +210,8 @@ public class UpdateCliente extends JDialog {
 				buttonPane.add(cerrarButton);
 			
 	}
+
+	public UpdateCliente(UsandoPestañas usandoPestañas) {
+		// TODO Auto-generated constructor stub
+	}
 }

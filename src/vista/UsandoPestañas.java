@@ -12,23 +12,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cliente;
 import modelo.GestorBBDD;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UsandoPestañas extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
 	private JTable table;
+	private JTextField textDNI;
+	private JTextField textNombre;
+	private JTextField textApellido;
+	private JTextField textDireccion;
+	private JTextField textLocalidad;
 
 	/**
 	 * Launch the application.
@@ -86,37 +90,79 @@ public class UsandoPestañas extends JFrame {
 		lblLocalidad.setBounds(10, 135, 59, 14);
 		instCliente.add(lblLocalidad);
 		
-		textField = new JTextField();
-		textField.setToolTipText("");
-		textField.setColumns(10);
-		textField.setBounds(79, 11, 86, 20);
-		instCliente.add(textField);
+		textDNI = new JTextField();
+		textDNI.setToolTipText("");
+		textDNI.setColumns(10);
+		textDNI.setBounds(79, 11, 86, 20);
+		instCliente.add(textDNI);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(79, 42, 86, 20);
-		instCliente.add(textField_1);
+		textNombre = new JTextField();
+		textNombre.setColumns(10);
+		textNombre.setBounds(79, 42, 86, 20);
+		instCliente.add(textNombre);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(79, 72, 86, 20);
-		instCliente.add(textField_2);
+		textApellido = new JTextField();
+		textApellido.setColumns(10);
+		textApellido.setBounds(79, 72, 86, 20);
+		instCliente.add(textApellido);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(79, 102, 86, 20);
-		instCliente.add(textField_3);
+		textDireccion = new JTextField();
+		textDireccion.setColumns(10);
+		textDireccion.setBounds(79, 102, 86, 20);
+		instCliente.add(textDireccion);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(79, 132, 86, 20);
-		instCliente.add(textField_4);
+		textLocalidad = new JTextField();
+		textLocalidad.setColumns(10);
+		textLocalidad.setBounds(79, 132, 86, 20);
+		instCliente.add(textLocalidad);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String dni = textDNI.getText();
+				String nombre = textNombre.getText();
+				String apellido = textApellido.getText();
+				String direccion = textDireccion.getText();
+				String localidad = textLocalidad.getText();
+				
+				Cliente cliente = new Cliente();
+				GestorBBDD gestorbbdd = new GestorBBDD();
+				cliente.setDni(dni);
+				cliente.setNombre(nombre);
+				cliente.setApellidos(apellido);
+				cliente.setDireccion(direccion);
+				cliente.setLocalidad(localidad);
+				
+				try {
+					if (textDNI.getText().length() == 0) {
+						JOptionPane.showMessageDialog(null, "Error datos no validos!");
+					}else {
+					gestorbbdd.altaCliente(cliente);
+					JOptionPane.showMessageDialog(null, "Cliente insertado!");
+					textDNI.setText(null);
+					textNombre.setText(null);
+					textApellido.setText(null);
+					textDireccion.setText(null);
+					textLocalidad.setText(null);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnGuardar.setBounds(79, 176, 89, 23);
 		instCliente.add(btnGuardar);
 		
 		JButton btnModificar = new JButton("Modificar Cliente");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirMdificar();
+			}
+
+
+		});			
+		
+		
 		btnModificar.setBounds(46, 210, 155, 23);
 		instCliente.add(btnModificar);
 		
@@ -142,5 +188,13 @@ public class UsandoPestañas extends JFrame {
 		
 		verClientes.add(table);
 		
+	}
+
+	protected void abrirMdificar() {
+
+			UpdateCliente modificarCliente = new UpdateCliente(this);
+		    modificarCliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		    modificarCliente.setModal(true);
+		    modificarCliente.setVisible(true);
 	}
 }
