@@ -34,6 +34,11 @@ public class UsandoPestañas extends JFrame {
 	private JTextField textApellido;
 	private JTextField textDireccion;
 	private JTextField textLocalidad;
+	private JTextField textUpDni;
+	private JTextField textUpNombre;
+	private JTextField textUpApellido;
+	private JTextField textUpDireccion;
+	private JTextField textUpLocalidad;
 
 	/**
 	 * Launch the application.
@@ -155,15 +160,173 @@ public class UsandoPestañas extends JFrame {
 		btnGuardar.setBounds(79, 176, 89, 23);
 		instCliente.add(btnGuardar);
 		
-		JButton btnModificar = new JButton("Modificar Cliente");		
-		
-		
-		btnModificar.setBounds(46, 210, 155, 23);
-		instCliente.add(btnModificar);
-		
 		JPanel modCliente = new JPanel();
 		tabbedPane.addTab("Modificar / Eliminar Cliente", null, modCliente, null);
 		modCliente.setLayout(null);
+		
+		JLabel lblDni = new JLabel("DNI");
+		lblDni.setBounds(27, 11, 46, 14);
+		modCliente.add(lblDni);
+		
+		JLabel lblNombre_1 = new JLabel("Nombre");
+		lblNombre_1.setBounds(27, 41, 46, 14);
+		modCliente.add(lblNombre_1);
+		
+		JLabel lblApellido_1 = new JLabel("Apellido");
+		lblApellido_1.setBounds(27, 71, 46, 14);
+		modCliente.add(lblApellido_1);
+		
+		JLabel lblDireccion_1 = new JLabel("Direccion");
+		lblDireccion_1.setBounds(27, 101, 59, 14);
+		modCliente.add(lblDireccion_1);
+		
+		JLabel lblLocalidad_1 = new JLabel("Localidad");
+		lblLocalidad_1.setBounds(27, 131, 59, 14);
+		modCliente.add(lblLocalidad_1);
+		
+		textUpDni = new JTextField();
+		textUpDni.setBounds(85, 8, 86, 20);
+		modCliente.add(textUpDni);
+		textUpDni.setColumns(10);
+		
+		textUpNombre = new JTextField();
+		textUpNombre.setColumns(10);
+		textUpNombre.setBounds(85, 38, 86, 20);
+		modCliente.add(textUpNombre);
+		
+		textUpApellido = new JTextField();
+		textUpApellido.setColumns(10);
+		textUpApellido.setBounds(85, 68, 86, 20);
+		modCliente.add(textUpApellido);
+		
+		textUpDireccion = new JTextField();
+		textUpDireccion.setColumns(10);
+		textUpDireccion.setBounds(85, 98, 86, 20);
+		modCliente.add(textUpDireccion);
+		
+		textUpLocalidad = new JTextField();
+		textUpLocalidad.setColumns(10);
+		textUpLocalidad.setBounds(85, 128, 86, 20);
+		modCliente.add(textUpLocalidad);
+		
+		JButton btnCargar = new JButton("Cargar");
+		JButton btnDniEquivocado = new JButton("¿DNI Erroneo?");
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				GestorBBDD gestorbbdd = new GestorBBDD();
+				Cliente nuevoCliente = new Cliente();
+				nuevoCliente.setDni(textUpDni.getText());
+				nuevoCliente.setNombre(textUpNombre.getText());
+				nuevoCliente.setApellidos(textUpApellido.getText());
+				nuevoCliente.setDireccion(textUpDireccion.getText());
+				nuevoCliente.setLocalidad(textUpLocalidad.getText());
+				try {
+					gestorbbdd.modificarCliente(nuevoCliente);
+					JOptionPane.showMessageDialog(null, "Cliente modificado!");
+					
+					btnModificar.setEnabled(false);
+					btnCargar.setEnabled(true);
+					textUpDni.setEditable(true);
+					btnDniEquivocado.setVisible(false);
+					
+					textUpDni.setText(null);
+					textUpNombre.setText(null);
+					textUpApellido.setText(null);
+					textUpDireccion.setText(null);
+					textUpLocalidad.setText(null);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnModificar.setEnabled(false);
+		btnModificar.setBounds(85, 156, 89, 23);
+		modCliente.add(btnModificar);
+		
+		btnDniEquivocado.setVisible(false);
+		
+		btnDniEquivocado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				btnModificar.setEnabled(false);
+				btnCargar.setEnabled(true);
+				textUpDni.setEditable(true);
+				btnDniEquivocado.setVisible(false);
+				
+				textUpNombre.setText(null);
+				textUpApellido.setText(null);
+				textUpDireccion.setText(null);
+				textUpLocalidad.setText(null);
+				
+			}
+		});
+		btnDniEquivocado.setBounds(189, 37, 127, 23);
+		modCliente.add(btnDniEquivocado);
+		
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(textUpDni.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Error! Introduce el DNI del cliente al que quieres eliminar!");
+				}else {
+					GestorBBDD gestorbbdd = new GestorBBDD();
+					Cliente clienteAEliminar = new Cliente();
+					clienteAEliminar.setDni(textUpDni.getText());
+					try {
+						gestorbbdd.bajaCliente(clienteAEliminar);
+						JOptionPane.showMessageDialog(null, "Cliente eliminado!");
+						textUpDni.setText(null);
+						textUpNombre.setText(null);
+						textUpApellido.setText(null);
+						textUpLocalidad.setText(null);
+						textUpDireccion.setText(null);
+						
+						btnModificar.setEnabled(false);
+						btnCargar.setEnabled(true);
+						btnDniEquivocado.setVisible(false);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				
+			}
+		});
+		btnEliminar.setBounds(288, 7, 89, 23);
+		modCliente.add(btnEliminar);
+		
+		
+		btnCargar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				GestorBBDD gestorbbdd = new GestorBBDD();
+				try {
+					Cliente clienteCargado = gestorbbdd.getCliente(textUpDni.getText());
+					if(clienteCargado.getDni() == "-1") {
+						JOptionPane.showMessageDialog(null, "No hemos encontrado ese cliente!");
+					}else {
+					btnModificar.setEnabled(true);
+					btnDniEquivocado.setVisible(true);
+					btnCargar.setEnabled(false);
+					textUpDni.setEditable(false);
+		
+					textUpNombre.setText(clienteCargado.getNombre());
+					textUpApellido.setText(clienteCargado.getApellidos());
+					textUpDireccion.setText(clienteCargado.getDireccion());
+					textUpLocalidad.setText(clienteCargado.getLocalidad());
+				}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnCargar.setBounds(189, 7, 89, 23);
+		modCliente.add(btnCargar);
 		
 		JPanel verClientes = new JPanel();
 		tabbedPane.addTab("Ver Clientes", null, verClientes, null);
