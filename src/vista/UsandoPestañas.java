@@ -23,6 +23,7 @@ import modelo.Cliente;
 import modelo.GestorBBDD;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 
 public class UsandoPestañas extends JFrame {
 
@@ -54,6 +55,7 @@ public class UsandoPestañas extends JFrame {
 	 * Create the frame.
 	 */
 	public UsandoPestañas() {
+		setTitle("Hola Ventanas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -158,6 +160,10 @@ public class UsandoPestañas extends JFrame {
 		
 		btnModificar.setBounds(46, 210, 155, 23);
 		instCliente.add(btnModificar);
+		
+		JPanel modCliente = new JPanel();
+		tabbedPane.addTab("Modificar / Eliminar Cliente", null, modCliente, null);
+		modCliente.setLayout(null);
 		
 		JPanel verClientes = new JPanel();
 		tabbedPane.addTab("Ver Clientes", null, verClientes, null);
