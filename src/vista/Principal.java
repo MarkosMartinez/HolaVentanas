@@ -13,6 +13,7 @@ import modelo.GestorBBDD;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
@@ -38,6 +39,8 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Black");
+		            UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
