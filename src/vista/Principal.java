@@ -39,8 +39,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Black");
-		            UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+		            UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
