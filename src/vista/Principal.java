@@ -355,6 +355,7 @@ public class Principal extends JFrame {
 		JButton btnActualizar = new JButton("Actualizar");
 		btnActualizar.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
+	        	btnActualizar.setEnabled(false);
 	            try {
 	                ArrayList<Cliente> nuevosClientes = gestorbbdd.getClientes();
 	                model.setRowCount(0);
@@ -369,6 +370,7 @@ public class Principal extends JFrame {
 	            } catch (SQLException ex) {
 	                ex.printStackTrace();
 	            }
+	            btnActualizar.setEnabled(true);
 	        }
 	    });
 		verClientes.add(btnActualizar);
