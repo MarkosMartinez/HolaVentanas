@@ -24,6 +24,8 @@ import modelo.Cliente;
 import modelo.GestorBBDD;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
 public class Principal extends JFrame {
 
@@ -158,7 +160,7 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		btnGuardar.setBounds(79, 176, 89, 23);
+		btnGuardar.setBounds(79, 170, 89, 23);
 		instCliente.add(btnGuardar);
 		
 		JPanel modCliente = new JPanel();
@@ -246,7 +248,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnModificar.setEnabled(false);
-		btnModificar.setBounds(85, 156, 89, 23);
+		btnModificar.setBounds(85, 165, 89, 23);
 		modCliente.add(btnModificar);
 		
 		btnDniEquivocado.setVisible(false);
@@ -289,6 +291,7 @@ public class Principal extends JFrame {
 						textUpDireccion.setText(null);
 						
 						btnModificar.setEnabled(false);
+						textUpDni.setEditable(true);
 						btnCargar.setEnabled(true);
 						btnDniEquivocado.setVisible(false);
 					} catch (SQLException e1) {
@@ -329,16 +332,18 @@ public class Principal extends JFrame {
 		btnCargar.setBounds(189, 7, 89, 23);
 		modCliente.add(btnCargar);
 		
-		JPanel verClientes = new JPanel();
+		JPanel verClientes = new JPanel(new BorderLayout());
 		tabbedPane.addTab("Ver Clientes", null, verClientes, null);
+
 		GestorBBDD gestorbbdd = new GestorBBDD();
 		ArrayList<Cliente> clientes = new ArrayList<>();
 		try {
-			 clientes = gestorbbdd.getClientes();
-			
+		     clientes = gestorbbdd.getClientes();
+		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
+
 		table = new JTable();
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {}, new String[] {"DNI", "Nombre", "Apellido", "Dirección", "Localidad"});
 		Iterator<Cliente> it = clientes.iterator();
@@ -346,34 +351,34 @@ public class Principal extends JFrame {
 		  Cliente cliente = it.next();
 		  model.addRow(new Object[]{cliente.getDni(), cliente.getNombre(), cliente.getApellidos(), cliente.getDireccion(), cliente.getLocalidad()});
 		}
-		verClientes.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		table.setModel(model);
 
-		
-		verClientes.add(table);
-		
+		JScrollPane scrollPane = new JScrollPane(table);
+		verClientes.add(scrollPane, BorderLayout.CENTER);
+
 		JButton btnActualizar = new JButton("Actualizar");
 		btnActualizar.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	        	btnActualizar.setEnabled(false);
-	            try {
-	                ArrayList<Cliente> nuevosClientes = gestorbbdd.getClientes();
-	                model.setRowCount(0);
-	                Iterator<Cliente> iter = nuevosClientes.iterator();
-	                while (iter.hasNext()) {
-	                    Cliente cliente = iter.next();
-	                    Object[] fila = {cliente.getDni(), cliente.getNombre(),
-	                                     cliente.getApellidos(), cliente.getDireccion(),
-	                                     cliente.getLocalidad()};
-	                    model.addRow(fila);
-	                }
-	            } catch (SQLException ex) {
-	                ex.printStackTrace();
-	            }
-	            btnActualizar.setEnabled(true);
-	        }
-	    });
-		verClientes.add(btnActualizar);
+		    public void actionPerformed(ActionEvent e) {
+		        btnActualizar.setEnabled(false);
+		        try {
+		            ArrayList<Cliente> nuevosClientes = gestorbbdd.getClientes();
+		            model.setRowCount(0);
+		            Iterator<Cliente> iter = nuevosClientes.iterator();
+		            while (iter.hasNext()) {
+		                Cliente cliente = iter.next();
+		                Object[] fila = {cliente.getDni(), cliente.getNombre(),
+		                                 cliente.getApellidos(), cliente.getDireccion(),
+		                                 cliente.getLocalidad()};
+		                model.addRow(fila);
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
+		        btnActualizar.setEnabled(true);
+		    }
+		});
+
+		verClientes.add(btnActualizar, BorderLayout.SOUTH);
 		
 	}
 }
